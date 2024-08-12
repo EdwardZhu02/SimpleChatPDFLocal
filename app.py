@@ -15,7 +15,6 @@ from flask import Flask, render_template, request, session
 import maininstance  # for ChatPDF app running
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-app.secret_key = 'dZs2nvojIxFQR3ynqfaO5eT1GBmQOzYVcKxaZMEgGto'  # secrets.token_urlsafe(32)
 
 UPLOAD_FOLDER = 'uploads'  # Directory to store uploaded files
 ALLOWED_EXTENSIONS = {'pdf'}  # Allowed file extensions
