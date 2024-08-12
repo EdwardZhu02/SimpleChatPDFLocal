@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ChatPDF-Ollama local instance</title>
+
+    <!--External CSS styles-->
+    <link rel='stylesheet' href='{% static 'Bootstrap-3.4.1/css/default-bootstrap.min.css' %}'>
+</head>
+
+<body>
+    {% if file_name %}
+        <pre>{{ file_name }}</pre>
+    {% endif %}
+    {% if summary_text %}
+        <h2>Generated summary:</h2>
+        <pre>{{ summary_text }}</pre>
+    {% endif %}
+    {% if initial_question_text %}
+        <h2>Putative questions to begin with the summary:</h2>
+        <pre>{{ initial_question_text }}</pre>
+    {% endif %}
+
+    {% if show_dialog_panel %}
+        <!--Panel for submitting questions-->
+        <form method="POST" enctype="multipart/form-data" name="form_submit_query" id="form_submit_query" action="/dialog">
+            <label>
+                <input type="text" id="question_query" name="question_query" required>
+            </label>
+            <input type="submit" value="Send">
+        </form>
+    {% else %}
+        <!--Panel for file upload-->
+        <form method="POST" enctype="multipart/form-data" name="form_upload_file" id="form_upload_file">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+        </form>
+    {% endif %}
+
+    {% if current_question %}
+        <h3>Query</h3>
+        <pre>{{ current_question }}</pre>
+    {% endif %}
+
+    {% if current_response %}
+        <h3>Response</h3>
+        <pre>{{ current_response }}</pre>
+    {% endif %}
+</body>
+</html>
