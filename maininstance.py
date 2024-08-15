@@ -17,6 +17,7 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import RetrievalQA, LLMChain
 from langchain.chains.summarize import load_summarize_chain
 from langchain.document_loaders import TextLoader, PyPDFLoader
+import secrets
 import sys
 import os
 import json
@@ -37,18 +38,17 @@ class SuppressStdout:  # define class to supress verbose output
 
 
 class ChatPDFInstance:
-    def __init__(self, file_path=None, model_name='llama3.1'):
+    def __init__(self, file_path=None, file_display_name=None, model_name='llama3.1'):
         self._vectorstore = None
         self._all_splits = None
+        self._file_path = file_path
+        self._file_display_name = file_display_name
         if file_path:
-            self._file_path = file_path
             self._file_name = file_path.split("/")[-1]
             self._llm = Ollama(model=model_name, callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]))
             # Load text from original file
             loader = self._file_path.endswith(".pdf") and PyPDFLoader(self._file_path) or TextLoader(self._file_path)
             self._textraw = loader.load()
-        else:
-            self._file_name = None  # blank object, serve as identifier
 
     def split_embed_text(self):
         print("Splitting text and creating embedding database...")
@@ -107,13 +107,13 @@ class ChatPDFInstance:
 
         # Get result output and return
         _qachain_result = qa_chain({"query": str(query_text)})
-        return _qachain_result
+        return _qachain_result  # dict, {'query': 'query_content', 'result': 'result_content'}
 
     def show_all_splits(self):
         return [i.page_content for i in self._all_splits]
 
-    def show_file_name(self):
-        return self._file_name
+    def show_file_names(self):
+        return [self._file_name, self._file_display_name]
 
 
 if __name__ == "__main__":  # Launch app in CLI

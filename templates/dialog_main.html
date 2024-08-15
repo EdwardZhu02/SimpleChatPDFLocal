@@ -1,0 +1,61 @@
+{% extends "basemodel.html" %}
+
+{% block content %}
+    <div class='container'><div class='row'>
+        <div class="col-md-5"><div class="panel panel-default"><div class="panel-body">
+            {% if file_name %}
+                <p>File name: <span>{{ file_display_name }}</span></p>
+            {% endif %}
+            {% if summary_text %}
+                <h4>Generated summary:</h4>
+                <p><span>{{ summary_text }}</span></p>
+            {% endif %}
+            {% if initial_question_text %}
+                <h4>Putative questions to begin with the summary:</h4>
+                {% for line in initial_question_text.split('?') %}
+                    <p>{{ line }}?</p>
+                {% endfor %}
+            {% endif %}
+            <br>
+            <a href="#"><span>End chat with this file</span></a>
+            <a href="#"><span>Export chat history as markdown</span></a>
+        </div></div></div>
+        <div class="col-md-7"><div class="panel panel-default"><div class="panel-body">
+
+            <!--Chat history-->
+            {% if chat_history_list %}
+                <h4>History</h4>
+                <hr>
+                {% for indv_chat in chat_history_list %}
+                    <p>Question: </p><li>{{ indv_chat.query }}</li>
+                    <p>Response: </p><li>{{ indv_chat.result }}</li>
+                {% endfor %}
+            {% endif %}
+
+            <!--Current question and response-->
+            <h4>Current chat</h4>
+            <hr>
+            {% if current_question %}
+                <h5>Query</h5>
+                <p><span>{{ current_question }}</span></p>
+            {% endif %}
+            {% if current_response %}
+                <h5>Response</h5>
+                <p>
+                    {% for line in current_response.split('\n') %}
+                        {{ line }}<br>
+                    {% endfor %}
+                </p>
+            {% endif %}
+
+            <!--Panel for submitting questions-->
+            <form method="POST" enctype="multipart/form-data" name="form_submit_query" id="form_submit_query" action="/dialog">
+                <label>
+                    <input type="text" id="question_query" name="question_query" class="form-control" required>
+                </label>
+                <input type="submit" value="Send" class="btn btn-default">
+            </form>
+
+        </div></div></div>
+    </div></div>
+{% endblock %}

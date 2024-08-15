@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ChatPDF-Ollama local instance</title>
+
+    <!--External CSS styles-->
+    <link rel='stylesheet' href='{{ url_for('static', filename='Bootstrap-3.4.1/css/default-bootstrap.min.css') }}'>
+</head>
+<body>
+    <!--Page Header Row-->
+    <div class="container"><div class="page-header"><div class='row'>
+        <h4>The SimpleChatPDFLocal instance</h4>
+    </div></div></div>
+
+    <main>
+        {% block content %}
+            <!-- This is where the page-specific content will go -->
+        {% endblock %}
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% extends "basemodel.html" %}
+
+{% block content %}
+    <div class='container'><div class='row'>
+        <div class="col-md-12"><div class="panel panel-default"><div class="panel-body">
+            <!--Panel for file upload-->
+            <p><span>Upload PDF file to begin:</span></p>
+            <form method="POST" enctype="multipart/form-data" name="form_upload_file" id="form_upload_file" action="/upload_file">
+                <label>
+                    <input type="file" name="file" class="btn btn-default">
+                </label>
+                <input type="submit" value="Upload" class="btn btn-default">
+            </form>
+            <br>
+            <a href="#">Model to use: efficiency/performance</a>
+        </div></div></div>
+    </div></div>
+{% endblock %}
